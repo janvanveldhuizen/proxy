@@ -14,8 +14,8 @@ services:
       - 80:80
       - 443:443
     environment:
-      - CF_API_EMAIL=jan@van-veldhuizen.nl
-      - CF_API_KEY=cb041c1bc23dff875c5274d306eebdb0d829c
+      - CF_API_EMAIL=XXXXXXXXXXXXXX
+      - CF_API_KEY=XXXXXXXXXXXX
     volumes:
       - /etc/localtime:/etc/localtime:ro
       - /var/run/docker.sock:/var/run/docker.sock:ro
