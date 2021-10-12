@@ -27,7 +27,7 @@ services:
       - "traefik.http.routers.traefik.entrypoints=web"
       - "traefik.http.routers.traefik.rule=Host(`traefik.home.papasmurf.nl`)"
       - "traefik.http.routers.traefik.middlewares=traefik-https-redirect"
-      - "traefik.http.middlewares.traefik-auth.basicauth.users=jan:$$apr1$$pBN5qNFQ$$wa2uQXTAt7LRN12kHcn89."
+      - "traefik.http.middlewares.traefik-auth.basicauth.users=XXXXXXXXXXXXXXXXXXXXXXXXX"
       - "traefik.http.middlewares.traefik-https-redirect.redirectscheme.scheme=https"
       - "traefik.http.middlewares.sslheader.headers.customrequestheaders.X-Forwarded-Proto=https"
       - "traefik.http.routers.traefik-secure.entrypoints=web-secure"
