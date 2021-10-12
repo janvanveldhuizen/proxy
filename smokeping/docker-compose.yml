@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  smokeping:
+    image: lscr.io/linuxserver/smokeping
+    container_name: smokeping
+    hostname: smokeping
+    restart: unless-stopped
+    environment:
+      - PUID=1000
+      - PGID=1000
+    networks:
+      - proxy
+    volumes:
+      - /home/jan/proxy/smokeping/config:/config
+      - /home/jan/proxy/smokeping/data:/data
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.smokeping.entrypoints=web-secure"
+      - "traefik.http.routers.smokeping.rule=Host(`smokeping.home.papasmurf.nl`)"
+      - "traefik.http.routers.smokeping.tls.certResolver=traefik-secure"
+
+networks:
+  proxy:
+    external: true

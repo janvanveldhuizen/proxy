@@ -1,0 +1,36 @@
+version: '3'
+
+services:
+  pihole:
+    image: pihole/pihole:latest
+    container_name: pihole
+    hostname: pihole
+    restart: unless-stopped
+    networks:
+      - proxy
+    environment:
+      TZ: Europe/Amsterdam
+      WEBPASSWORD: verysecure
+    volumes:
+      - ./etc-pihole/:/etc/pihole/
+      - ./etc-dnsmasq.d/:/etc/dnsmasq.d/
+    cap_add:
+      - NET_ADMIN
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.pihole.entrypoints=web-secure"
+      - "traefik.http.routers.pihole.rule=Host(`pihole.home.papasmurf.nl`)"
+      - "traefik.http.routers.pihole.tls.certResolver=traefik-secure"
+      # 53/udp
+      - "traefik.udp.routers.pihole-dns-udp.entrypoints=dns-udp"
+      - "traefik.udp.routers.pihole-dns-udp.service=pihole-dns-udp-svc"
+      - "traefik.udp.services.pihole-dns-udp-svc.loadbalancer.server.port=53"
+      # 53/tcp
+      - "traefik.tcp.routers.pihole-dns-tcp.rule=HostSNI(`*`)"
+      - "traefik.tcp.routers.pihole-dns-tcp.entrypoints=dns-tcp"
+      - "traefik.tcp.routers.pihole-dns-tcp.service=pihole-dns-tcp-svc"
+      - "traefik.tcp.services.pihole-dns-tcp-svc.loadbalancer.server.port=53"
+
+networks:
+  proxy:
+    external: true
